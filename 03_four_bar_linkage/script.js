@@ -133,7 +133,9 @@ function initializeSliders() {
 }
 
 function setup() {
-    createCanvas(800,400);
+    let container = document.getElementById('canvas-container');
+    let p = createCanvas(800, 400);
+    p.parent('canvas-container');
     fixedCanvas = createGraphics(width, height);
     
     initializeSliders();
