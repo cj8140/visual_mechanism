@@ -1,0 +1,40 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>4Bar Linkage Sim</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>4Bar Linkage Sim</h1>
+    <div id="canvas-container"></div>
+    <div id="controls">
+      <div>
+        <label for="slider1">Link1 Length:</label>
+        <input type="range" id="slider1" min="50" max="200" value="100">
+        <input type="number" id="value1" min="50" max="200" value="100">
+      </div>
+      <div>
+        <label for="slider2">Link2 Length:</label>
+        <input type="range" id="slider2" min="50" max="200" value="100">
+        <input type="number" id="value2" min="50" max="200" value="100">
+      </div>
+      <div>
+        <label for="slider3">Link2 Center X:</label>
+        <input type="range" id="slider3" min="100" max="800" value="600">
+        <input type="number" id="value3" min="100" max="800" value="600">
+      </div>
+      <div>
+        <label for="slider4">Link2 Center Y:</label>
+        <input type="range" id="slider4" min="100" max="350" value="250">
+        <input type="number" id="value4" min="100" max="350" value="250">
+      </div>
+    </div>
+  </main>
+</body>
+</html>
