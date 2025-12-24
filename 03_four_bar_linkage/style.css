@@ -10,8 +10,33 @@ body {
 #controls {
 	margin-top: 5px;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: auto 1fr 1fr;
 	gap: 15px;
+	align-items: start;
+}
+
+#resetBtn {
+	grid-column: 1;
+	grid-row: 1 / 3;
+	padding: 10px 16px;
+	background: #ff4444;
+	color: #ffffff;
+	border: none;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.2s ease;
+	white-space: nowrap;
+	height: fit-content;
+}
+
+#resetBtn:hover {
+	background: #ff2222;
+}
+
+#resetBtn:active {
+	background: #cc0000;
 }
 
 #controls div {

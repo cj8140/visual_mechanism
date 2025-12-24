@@ -52,7 +52,7 @@ let limitAngle = {          // last possible angle
     max : 180
 }
 
-let linkLength = 200;
+let linkDistance = 200;
 
 let adder = 1;
 
@@ -71,24 +71,22 @@ function initializeSliders() {
     function updateMechanism() {
         link1Joint.angle = 90;
         link1Joint.x = link1Center.x;
-        link1Joint.y = link1Center.y - link1Joint.length;
+        link1Joint.y = link1Center.y - link1length;
         link2Joint.angle = 90;
         link2Joint.x = link2Center.x;
-        link2Joint.y = link2Center.y - link2Joint.length;
-        linkLength = dist(link1Joint.x, link1Joint.y, link2Joint.x, link2Joint.y);
+        link2Joint.y = link2Center.y - link2length;
+        linkDistance = dist(link1Joint.x, link1Joint.y, link2Joint.x, link2Joint.y);
         drawImage();
     }
 
     // Slider1 (Link1 Length)
     slider1.addEventListener('input', () => {
         link1length = parseFloat(slider1.value);
-        link1Joint.length = link1length;
         value1.value = link1length;
         updateMechanism();
     });
     value1.addEventListener('input', () => {
         link1length = parseFloat(value1.value);
-        link1Joint.length = link1length;
         slider1.value = link1length;
         updateMechanism();
     });
@@ -96,13 +94,11 @@ function initializeSliders() {
     // Slider2 (Link2 Length)
     slider2.addEventListener('input', () => {
         link2length = parseFloat(slider2.value);
-        link2Joint.length = link2length;
         value2.value = link2length;
         updateMechanism();
     });
     value2.addEventListener('input', () => {
         link2length = parseFloat(value2.value);
-        link2Joint.length = link2length;
         slider2.value = link2length;
         updateMechanism();
     });
@@ -130,6 +126,27 @@ function initializeSliders() {
         slider4.value = link2Center.y;
         updateMechanism();
     });
+
+    // Reset Button
+    const resetBtn = document.getElementById('resetBtn');
+    resetBtn.addEventListener('click', () => {
+        link1length = 100;
+        link2length = 100;
+        link2Center.x = 600;
+        link2Center.y = 250;
+
+        slider1.value = link1length;
+        slider2.value = link2length;
+        slider3.value = link2Center.x;
+        slider4.value = link2Center.y;
+
+        value1.value = link1length;
+        value2.value = link2length;
+        value3.value = link2Center.x;
+        value4.value = link2Center.y;
+
+        updateMechanism();
+    });
 }
 
 function setup() {
@@ -142,10 +159,10 @@ function setup() {
 
     link1Joint.angle = 90;
     link2Joint.angle = 90;
-    link2Joint.length = abs(link2Joint.y-link2Center.y);
-    link1Joint.x = link1Center.x + link1Joint.length * cos(radians(link1Joint.angle));
-    link1Joint.y = link1Center.y - link1Joint.length * sin(radians(link1Joint.angle));
-    linkLength = dist(link1Joint.x, link1Joint.y, link2Joint.x, link2Joint.y);
+    link2length = abs(link2Joint.y-link2Center.y);
+    link1Joint.x = link1Center.x + link1length * cos(radians(link1Joint.angle));
+    link1Joint.y = link1Center.y - link1length * sin(radians(link1Joint.angle));
+    linkDistance = dist(link1Joint.x, link1Joint.y, link2Joint.x, link2Joint.y);
     
     drawImage();
 }
@@ -157,13 +174,18 @@ function draw() {
 
     // Draw Lines
     strokeWeight(3);
-    stroke(0);
+    stroke(50);
     // Link1
     line(link1Center.x, link1Center.y, link1End.x, link1End.y);
     // Link2
     line(link2Center.x, link2Center.y, link2End.x, link2End.y);
+    
+    stroke(100);
     // Coupler
     line(link1Joint.x, link1Joint.y, link2Joint.x, link2Joint.y);
+
+    stroke(0);
+    line(link1Center.x, link1Center.y, link2Center.x, link2Center.y);
 
     // Draw Points
     strokeWeight(10);
@@ -179,13 +201,6 @@ function draw() {
     stroke(0, 0, 255);
     point(link2Joint.x, link2Joint.y);
 
-    // if(cal) {
-    //     link1Joint.angle += adder;
-    // }
-    // if(cal == false || link1Joint.angle > 180 || link1Joint.angle < 0) {
-    //     adder *= -1;
-    //     link1Joint.angle += adder*2;
-    // }
 }
 function angleSetter() {
     let x = mouseX;
@@ -214,13 +229,13 @@ function mousePressed() {
 }
 
 function calculatePoints() {
-    link1Joint.x = link1Center.x + link1Joint.length * cos(radians(link1Joint.angle));
-    link1Joint.y = link1Center.y - link1Joint.length * sin(radians(link1Joint.angle));
+    link1Joint.x = link1Center.x + link1length * cos(radians(link1Joint.angle));
+    link1Joint.y = link1Center.y - link1length * sin(radians(link1Joint.angle));
     link1End.x = link1Center.x + link1End.length * cos(radians(link1Joint.angle));
     link1End.y = link1Center.y - link1End.length * sin(radians(link1Joint.angle));
 
     // Link2 end point calculation
-    let elbow = getElbow(link1Joint, link2Center, linkLength, link2Joint.length, 1);
+    let elbow = getElbow(link1Joint, link2Center, linkDistance, link2length, 1);
     if(elbow){
         link2Joint.x = elbow.x;
         link2Joint.y = elbow.y;
